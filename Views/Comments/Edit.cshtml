@@ -1,0 +1,26 @@
+﻿@model Micro_social_platform.Models.Comment
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm(controllerName: "Comments", actionName: "Edit",method: FormMethod.Post, routeValues: new { id = Model.CommentId }))
+{
+    <div class="card ">
+        <div class="card-header text-center" style="font-family:Helvetica, Arial, sans-serif; font-size:30px">
+            Edit comment
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                @Html.Label("Content","Modify here")
+                <br />
+                <br />
+                @Html.EditorFor(m => m.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("Content", null, new { @class = "text-danger"})
+                @Html.HiddenFor(m => m.Date)
+                <br />
+                <button class="btn btn-success" type="submit">Edit</button>
+            </blockquote>
+        </div>
+    </div>
+}
+
+

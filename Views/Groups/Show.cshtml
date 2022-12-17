@@ -1,0 +1,98 @@
+﻿@model Micro_social_platform.Models.Group
+
+<a class="btn btn-outline-info" href="/Groups/Index/">Show all groups</a>
+<br />
+<br />
+<div class="card">
+
+    <div class="card-body">
+        <h3 class="card-title py-3 px-3 rounded-2" style="background-color:#8A2BE2" ">@Model.Name</h3>
+    </div>
+
+</div>
+<br />
+<br />
+
+@foreach (var message in ViewBag.Group.GroupMessages)
+{
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+
+            <div>
+
+                <p>@message.Content</p>
+                <small>@message.Date</small>
+
+            </div>
+            <br>
+
+            <div class="d-flex">
+
+                <div>
+
+                    <a class="btn btn-outline-primary" href="/GroupMessages/Edit/@message.MessageId"><i class="bi bi-pencil-square"></i>Editeaza</a>
+
+                </div>
+
+                <div>
+
+                    <form method="post" action="/GroupMessages/Delete/@message.MessageId">
+
+                        <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <br />
+
+        </div>
+
+        <div class="col-md-2"></div>
+
+    </div>
+
+</div>
+}
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+                <form method="post" action=/GroupMessages/New>
+
+                    <div class="card-body">
+
+                        <input type="hidden" name="GroupId" value="@Model.GroupId" />
+
+                        <label>Write your post</label>
+                        <br />
+
+                        <textarea class="form-control" name="Content"></textarea>
+                        <br />
+
+                        <button class="btn btn-success " type="submit">Upload your post</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2"></div>
+
+    </div>
+
+</div> 

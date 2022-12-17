@@ -1,0 +1,26 @@
+﻿@model Micro_social_platform.Models.Article
+
+<form method="post" action="/Articles/New">
+    <br />
+    <div class="card ">
+        <div class="card-header text-center" style="font-family:Helvetica, Arial, sans-serif; font-size:30px">
+            Write your post
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                @Html.Label("Title","Give your post a title")
+                @Html.TextBox("Title", null, new { @class = "form-control " })
+                @Html.ValidationMessageFor(m => m.Title, null, new {@class = "text-danger" })
+                <br /><br />
+                @Html.Label("Content", "Your post ")
+                @Html.TextArea("Content", null, new { @class = "form-control" })
+                @Html.ValidationMessage("Content", null, new { @class ="text-danger" })
+                <br />
+                <br />
+                @Html.HiddenFor(m => m.Date)
+                <button class="btn btn-outline-success">Posteaza</button>
+            </blockquote>
+        </div>
+    </div>
+
+</form>

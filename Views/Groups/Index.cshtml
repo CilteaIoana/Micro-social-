@@ -1,0 +1,15 @@
+﻿@foreach (var group in ViewBag.Groups)
+{
+    <div class="card" >
+        @* <img src="..." class="card-img-top" alt="..."> *@
+        <div class="card-body">
+
+            <h3 class="card-title py-3 px-3 rounded-2" style="background-color:#8A2BE2"><i class="bi bi-rainbow"></i>@group.Name</h3>
+            <div class="d-flex flex-row justify-content-between mt-5 ">
+                <a class="btn btn-outline-info" href="/Groups/Show/@group.GroupId">Find out more</a>
+           </div>
+        </div>
+    </div>
+    <br />
+    <br />
+}

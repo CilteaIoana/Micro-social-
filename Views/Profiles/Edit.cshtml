@@ -1,0 +1,69 @@
+﻿@model Micro_social_platform.Models.Profile
+@{
+    ViewBag.Title = "Edit";
+}
+<form method="post" action="/Profiles/Edit/@Model.ProfileId">
+    <div class="card ">
+        <div class="card-header text-center" style="font-family:Helvetica, Arial, sans-serif; font-size:30px">
+            Edit profile
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                @Html.Label("FirstName","First Name")
+                @Html.TextBox("FirstName", null, new { @class = "form-control " })
+                <br />
+                @Html.ValidationMessageFor(m => m.FirstName, null, new {@class = "text-danger" })
+                <br />
+                <br />
+                @Html.Label("LastName","Last Name")
+                @Html.TextBox("LastName", null, new { @class = "form-control " })
+                <br />
+                @Html.ValidationMessageFor(m => m.LastName, null, new {@class = "text-danger" })
+                <br />
+                <br />
+                @Html.Label("UserName","User Name")
+                @Html.TextBox("UserName", null, new { @class = "form-control " })
+                <br />
+                @Html.ValidationMessageFor(m => m.UserName, null, new {@class = "text-danger" })
+                <br />
+                <br />
+                @Html.Label("Description","Write a short description")
+                @Html.TextBox("Description", null, new { @class = "form-control " })
+                <br />
+                @Html.ValidationMessageFor(m => m.Description, null, new {@class = "text-danger" })
+                <br />
+                <br />
+                <input type="hidden" name="JoinDate" value="@DateTime.Now" />
+                <br />
+                <label>Private or Public account?</label>
+                <select name="IsPrivate">
+                    <option value="true">Private Account</option>
+                    <option value="false">Public Account</option>
+                </select>
+                <br />
+                @Html.ValidationMessageFor(m => m.IsPrivate, null, new {@class = "text-danger" })
+                <br />
+                <br />
+                <label>Choose your avatar </label>
+                <br />
+                <br />
+                <div class="d-flex justify-content-start flex-row mt-3 gap-3">
+
+                    <img style="width:200px" src="https://cdn-icons-png.flaticon.com/512/2517/2517614.png" class="card-img-top" />
+                    <img style="width:200px" src="https://cdn-icons-png.flaticon.com/512/1533/1533361.png" class="card-img-top" />
+
+                </div>
+                <div class="d-flex justify-content-start flex-row mt-3 gap-5">
+                    <input type="radio" class="btn-check" id="option1" autocomplete="off" checked name="ProfilePicture" value="https://cdn-icons-png.flaticon.com/512/2517/2517614.png"></input>
+                    <label class="btn btn-secondary" for="option1">I want to be this guy!</label>
+                    <input type="radio" class="btn-check" id="option2" autocomplete="off" checked name="ProfilePicture" value="https://cdn-icons-png.flaticon.com/512/1533/1533361.png"></input>
+                    <label class="btn btn-secondary" for="option2">I want to be this gal!</label>
+                </div>
+                @Html.ValidationMessageFor(m => m.ProfilePicture, null, new {@class = "text-danger" })
+                <br />
+                <br />
+                <button class="btn btn-outline-success">Edit profile</button>
+            </blockquote>
+        </div>
+    </div>
+</form>
