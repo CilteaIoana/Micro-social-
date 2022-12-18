@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using static Humanizer.On;
 
 namespace Micro_social_platform.Models
 {
