@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Micro_social_platform.Models
 {
+
     public static class SeedData
     {
         public static void Initialize(IServiceProvider serviceProvider)
@@ -21,19 +22,18 @@ namespace Micro_social_platform.Models
                 // CREAREA ROLURILOR IN BD
                 // daca nu contine roluri, acestea se vor crea
                 context.Roles.AddRange(
-                new IdentityRole { Id = "2c5e174e-3b0e-446f-86af483d56fd7210", Name = "Admin", NormalizedName = "Admin".ToUpper() },
-                new IdentityRole { Id = "2c5e174e-3b0e-446f-86af483d56fd7211", Name = "Editor", NormalizedName = "Editor".ToUpper() },
-                new IdentityRole { Id = "2c5e174e-3b0e-446f-86af483d56fd7212", Name = "User", NormalizedName = "User".ToUpper() }
+                new IdentityRole { Id = "0e8d45e3b0d147109cf3da63b3cfcef1", Name = "Admin", NormalizedName = "Admin".ToUpper() },
+                new IdentityRole { Id = "0e8d45e3b0d147109cf3da63b3cfcef2", Name = "User", NormalizedName = "User".ToUpper() }
                 );
                 // o noua instanta pe care o vom utiliza pentru crearea parolelor utilizatorilor
-                 // parolele sunt de tip hash
-                 var hasher = new PasswordHasher<ApplicationUser>();
+                // parolele sunt de tip hash
+                var hasher = new PasswordHasher<ApplicationUser>();
                 // CREAREA USERILOR IN BD
                 // Se creeaza cate un user pentru fiecare rol
                 context.Users.AddRange(
                 new ApplicationUser
                 {
-                    Id = "8e445865-a24d-4543-a6c6-9443d048cdb0",
+                    Id = "df9c5788dbf0424eb765d1e133b5b471",
                     // primary key
                     UserName = "admin@test.com",
                     EmailConfirmed = true,
@@ -44,47 +44,32 @@ namespace Micro_social_platform.Models
                 },
                new ApplicationUser
                {
-                   Id = "8e445865-a24d-4543-a6c6-9443d048cdb1",
+                   Id = "df9c5788dbf0424eb765d1e133b5b472",
                    // primary key
-                   UserName = "editor@test.com",
+                   UserName = "user@test.com",
                    EmailConfirmed = true,
-                   NormalizedEmail = "EDITOR@TEST.COM",
-                   Email = "editor@test.com",
-                   NormalizedUserName = "EDITOR@TEST.COM",
-                   PasswordHash = hasher.HashPassword(null, "Editor1!")
-               },
-                new ApplicationUser
-                {
-                    Id = "8e445865-a24d-4543-a6c6-9443d048cdb2",
-                    // primary key
-                    UserName = "user@test.com",
-                    EmailConfirmed = true,
-                    NormalizedEmail = "USER@TEST.COM",
-                    Email = "user@test.com",
-                    NormalizedUserName = "USER@TEST.COM",
-                    PasswordHash = hasher.HashPassword(null, "User1!")
-                }
+                   NormalizedEmail = "USER@TEST.COM",
+                   Email = "user@test.com",
+                   NormalizedUserName = "USER@TEST.COM",
+                   PasswordHash = hasher.HashPassword(null, "User1!")
+               }
                 );
                 // ASOCIEREA USER-ROLE
                 context.UserRoles.AddRange(
                 new IdentityUserRole<string>
                 {
-                    RoleId = "2c5e174e-3b0e-446f-86af483d56fd7210",
-                    UserId = "8e445865-a24d-4543-a6c6-9443d048cdb0"
+                    RoleId = "0e8d45e3b0d147109cf3da63b3cfcef1",
+                    UserId = "df9c5788dbf0424eb765d1e133b5b471"
                 },
                new IdentityUserRole<string>
                {
-                   RoleId = "2c5e174e-3b0e-446f-86af483d56fd7211",
-                   UserId = "8e445865-a24d-4543-a6c6-9443d048cdb1"
-               },
-               new IdentityUserRole<string>
-               {
-                   RoleId = "2c5e174e-3b0e-446f-86af483d56fd7212",
-                   UserId = "8e445865-a24d-4543-a6c6-9443d048cdb2"
+                   RoleId = "0e8d45e3b0d147109cf3da63b3cfcef2",
+                   UserId = "df9c5788dbf0424eb765d1e133b5b472"
                }
-                );
+               );
                 context.SaveChanges();
             }
         }
+
     }
 }
