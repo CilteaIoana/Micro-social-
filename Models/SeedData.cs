@@ -26,8 +26,8 @@ namespace Micro_social_platform.Models
                 new IdentityRole { Id = "0e8d45e3b0d147109cf3da63b3cfcef2", Name = "User", NormalizedName = "User".ToUpper() }
                 );
                 // o noua instanta pe care o vom utiliza pentru crearea parolelor utilizatorilor
-                 // parolele sunt de tip hash
-                 var hasher = new PasswordHasher<ApplicationUser>();
+                // parolele sunt de tip hash
+                var hasher = new PasswordHasher<ApplicationUser>();
                 // CREAREA USERILOR IN BD
                 // Se creeaza cate un user pentru fiecare rol
                 context.Users.AddRange(
@@ -70,5 +70,6 @@ namespace Micro_social_platform.Models
                 context.SaveChanges();
             }
         }
+
     }
 }

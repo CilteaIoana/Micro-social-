@@ -1,21 +1,34 @@
 ﻿using Micro_social_platform.Data;
 using Micro_social_platform.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Micro_social_platform.Controllers
 {
+    [Authorize]
     public class ArticlesController : Controller
     {
         private readonly ApplicationDbContext db;
-        public ArticlesController (ApplicationDbContext context) 
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public ArticlesController(
+        ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager
+        )
         {
             db = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
+
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Index()
         {
            
-            var articles = db.Articles;
+            var articles = db.Articles.Include("User");
             ViewBag.Articles = articles;
             if (TempData.ContainsKey("message"))
             {
