@@ -4,7 +4,11 @@
 
     <a class="btn btn-outline-info" href="/Profiles/Index/">See all profiles</a>
     <a class="btn btn-outline-info" href="/Profiles/New/">Create a new profile</a>
-    <a class="btn btn-outline-info" href="/Profiles/Edit/@Model.ProfileId">Edit this profile</a>
+    @if (Model.UserId == ViewBag.UserCurent || ViewBag.isAdmin)
+    {
+        <a class="btn btn-outline-info" href="/Profiles/Edit/@Model.ProfileId">Edit this profile</a>
+    }
+
 </div>
 
 <br />

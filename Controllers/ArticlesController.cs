@@ -42,6 +42,7 @@ namespace Micro_social_platform.Controllers
         {
             Article article = db.Articles.Include("Comments")
                                          .Include("User")
+                                         .Include("Comments.User")
                                          .Where(art => art.Id == id)
                                          .First();
 
@@ -69,8 +70,9 @@ namespace Micro_social_platform.Controllers
             {
                 Article art = db.Articles.Include("Comments")
                                          .Include("User")
-                               .Where(art => art.Id == comment.ArticleId)
-                               .First();
+                                         .Include("Comments.User")
+                                         .Where(art => art.Id == comment.ArticleId)
+                                         .First();
                 SetAccessRights();
                 return View(art);
             }

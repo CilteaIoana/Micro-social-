@@ -1,19 +1,25 @@
-﻿
-<a class="btn btn-info mt-3 mb-3 " href ="/Profiles/New">Create a Profile</a>
+﻿@model Micro_social_platform.Models.Profile
+<a class="btn btn-info mt-3 mb-3 " href="/Profiles/New">Create a Profile</a>
+@if (ViewBag.Msg != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Msg
+    </div>
 
+}
 @foreach (var profile in ViewBag.Profiles)
 {
-    <div class="card" >
+    <div class="card">
         <div class="card-body">
             <div class="d-flex flex-row mt-5" style="gap:30px">
-            <img style="width:150px" src="@profile.ProfilePicture" class="card-img-top">
+                <img style="width:150px" src="@profile.ProfilePicture" class="card-img-top">
                 <h3 class="card-title py-3 px-3 rounded-2"><i class="bi bi-person-fill"></i>@profile.UserName</h3>
             </div>
             <span>@profile.IsPrivate</span>
             <div class="d-flex flex-row justify-content-between mt-5 ">
                 <a class="btn btn-outline-info" href="/Profiles/Show/@profile.ProfileId">See profile</a>
                 <a class="btn btn-outline-danger" href="/Profiles/Delete/@profile.ProfileId">Delete profile</a>
-           </div>
+            </div>
         </div>
     </div>
     <br />

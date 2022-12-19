@@ -1,10 +1,5 @@
 ﻿@model Micro_social_platform.Models.Article
 
-<div class="d-flex justify-content-center">
-
-    <a class="btn btn-outline-info" href="/Articles/Index/">Afisare articole</a>
-    <a class="btn btn-outline-info" href="/Articles/New">Adauga articol</a>
-</div>
 @if (ViewBag.Msg != null)
 {
     <div class="alert alert-success" role="alert">
@@ -16,14 +11,19 @@
 
     <div class="card-body">
 
-        <h3 class="card-title py-3 px-3 rounded-2" style="background-color:#8A2BE2" ">@Model.Title</h3>
+        <h3 class="card-title py-3 px-3 rounded-2" style="background-color:#9370db">@Model.Title</h3>
         <div>@Model.Content</div>
         <div class="d-flex justify-content-between flex-row mt-3">
+            <div><i class="bi bi-person"></i> @Model.User.UserName</div>
+
             <span>@Model.Date</span>
         </div>
 
     </div>
     <hr />
+
+
+</div>
 
     @if(ViewBag.DisplayButtons == true && Model.UserId == ViewBag.UserCurent || ViewBag.isAdmin)
     {
@@ -55,29 +55,34 @@
 
                     <p>@comm.Content</p>
                     <small>@comm.Date</small>
+                <strong><i class="bi bi-person"></i>@comm.User.UserName</strong>
+
 
                 </div>
                 <br>
 
-                <div class="d-flex">
+                @if(comm.UserId == ViewBag.UserCurent || ViewBag.isAdmin)
+                {
+                    <div class="d-flex">
 
-                    <div>
+                        <div>
 
-                    <a class="btn btn-outline-primary" href="/Comments/Edit/@comm.CommentId"><i class="bi bi-pencil-square"></i>Editeaza</a>
+                        <a class="btn btn-outline-primary" href="/Comments/Edit/@comm.CommentId"><i class="bi bi-pencil-square"></i>Edit</a>
+
+                        </div>
+
+                        <div>
+
+                            <form method="post" action="/Comments/Delete/@comm.CommentId">
+
+                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Delete</button>
+
+                            </form>
+
+                        </div>
 
                     </div>
-
-                    <div>
-
-                    <form method="post" action="/Comments/Delete/@comm.CommentId">
-
-                            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
-
-                        </form>
-
-                    </div>
-
-                </div>
+                }
 
                 <br />
 
