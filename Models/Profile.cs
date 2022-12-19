@@ -26,7 +26,7 @@ namespace Micro_social_platform.Models
             public bool? IsPrivate { get; set; }
             public DateTime JoinDate { get; set; }
             public string? UserId { get; set; }
-            public virtual ApplicationUser User { get; set; } // un profil apartine unui singur utilizator
+            public virtual ApplicationUser? User { get; set; } // un profil apartine unui singur utilizator
 
         }
 }

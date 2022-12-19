@@ -40,32 +40,23 @@ namespace Micro_social_platform.Controllers
         [Authorize(Roles = "User,Admin")]
         public IActionResult Show(int id)
         {
-            Article article = db.Articles.Include("Comments").Include("User")
+            Article article = db.Articles.Include("Comments")
+                                         .Include("User")
                                          .Where(art => art.Id == id)
                                          .First();
 
-            SetAccesssRights();
+            SetAccessRights();
             ViewBag.Article = article;
             return View(article);
         }
 
-        private void SetAccesssRights()
-        {
-            ViewBag.DisplayButtons = false;
-
-            if (User.IsInRole("User"))
-            {
-                ViewBag.DisplayButtons = true;
-            }
-
-            ViewBag.UserCurent = _userManager.GetUserId(User);
-            ViewBag.isAdmin = User.IsInRole("Admin");
-        }
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Show([FromForm] Comment comment)
         {
             comment.Date = DateTime.Now;
+            comment.UserId = _userManager.GetUserId(User);
 
             if (ModelState.IsValid)
             {
@@ -77,9 +68,10 @@ namespace Micro_social_platform.Controllers
             else
             {
                 Article art = db.Articles.Include("Comments")
+                                         .Include("User")
                                .Where(art => art.Id == comment.ArticleId)
                                .First();
-
+                SetAccessRights();
                 return View(art);
             }
         }
@@ -96,6 +88,8 @@ namespace Micro_social_platform.Controllers
         public IActionResult New(Article article)
         {
             article.UserId = _userManager.GetUserId(User);
+            article.Date = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.Articles.Add(article);
@@ -112,9 +106,9 @@ namespace Micro_social_platform.Controllers
         [Authorize(Roles = "User,Admin")]
         public IActionResult Edit(int id)
         {
-
             Article article = db.Articles.Where(art => art.Id == id)
                                          .First();
+
             if (article.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
             {
                 ViewBag.Article = article;
@@ -176,6 +170,18 @@ namespace Micro_social_platform.Controllers
             }
         }
 
+        private void SetAccessRights()
+        {
+            ViewBag.DisplayButtons = false;
+
+            if (User.IsInRole("User"))
+            {
+                ViewBag.DisplayButtons = true;
+            }
+
+            ViewBag.UserCurent = _userManager.GetUserId(User);
+            ViewBag.isAdmin = User.IsInRole("Admin");
+        }
 
     }
 }

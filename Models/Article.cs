@@ -20,7 +20,7 @@ namespace Micro_social_platform.Models
         public string Content { get; set; }
 
         public string? UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }// un articol apartine unui singur utilizator
+        public virtual ApplicationUser? User { get; set; }// un articol apartine unui singur utilizator
 
         public virtual ICollection<Comment>? Comments { get; set; }
 

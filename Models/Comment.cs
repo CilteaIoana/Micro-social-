@@ -13,7 +13,7 @@ namespace Micro_social_platform.Models
         public DateTime Date { get; set; }
         public string? UserId { get; set; }
         public int? ArticleId { get; set; }
-        public virtual ApplicationUser User { get; set; } // un comentariu apartine unui singur utilizator
+        public virtual ApplicationUser? User { get; set; } // un comentariu apartine unui singur utilizator
 
         public virtual Article? Article { get; set; }
     }
