@@ -27,7 +27,7 @@ namespace Micro_social_platform.Controllers
         [Authorize(Roles = "User,Admin")]
         public IActionResult Index()
         {
-           
+
             var articles = db.Articles.Include("User");
             ViewBag.Articles = articles;
             if (TempData.ContainsKey("message"))
@@ -36,14 +36,32 @@ namespace Micro_social_platform.Controllers
             }
             return View();
         }
-        public IActionResult Show (int id) 
+
+        [Authorize(Roles = "User,Admin")]
+        public IActionResult Show(int id)
         {
-            Article article = db.Articles.Include("Comments")
-                                         .Where(art => art.Id == id) 
-                                         .First();  
-            ViewBag.Article = article; 
+            Article article = db.Articles.Include("Comments").Include("User")
+                                         .Where(art => art.Id == id)
+                                         .First();
+
+            SetAccesssRights();
+            ViewBag.Article = article;
             return View(article);
         }
+
+        private void SetAccesssRights()
+        {
+            ViewBag.DisplayButtons = false;
+
+            if (User.IsInRole("User"))
+            {
+                ViewBag.DisplayButtons = true;
+            }
+
+            ViewBag.UserCurent = _userManager.GetUserId(User);
+            ViewBag.isAdmin = User.IsInRole("Admin");
+        }
+
         [HttpPost]
         public IActionResult Show([FromForm] Comment comment)
         {
@@ -65,14 +83,19 @@ namespace Micro_social_platform.Controllers
                 return View(art);
             }
         }
+
+        [Authorize(Roles = "User,Admin")]
         public IActionResult New()
         {
             Article article = new Article();
             return View(article);
         }
+
         [HttpPost]
-        public IActionResult New (Article article) 
+        [Authorize(Roles = "User,Admin")]
+        public IActionResult New(Article article)
         {
+            article.UserId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
                 db.Articles.Add(article);
@@ -86,21 +109,33 @@ namespace Micro_social_platform.Controllers
             }
         }
 
-        public IActionResult Edit(int id) 
+        [Authorize(Roles = "User,Admin")]
+        public IActionResult Edit(int id)
         {
 
             Article article = db.Articles.Where(art => art.Id == id)
                                          .First();
-            ViewBag.Article=article;    
-            return View(article);
+            if (article.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+            {
+                ViewBag.Article = article;
+                return View(article);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol ce nu va apartine";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Edit(int id, Article requestArticle)
         {
             Article article = db.Articles.Find(id);
 
             if (ModelState.IsValid) 
+            {
+                if(article.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
                 {
                     article.Title = requestArticle.Title;
                     article.Content = requestArticle.Content;
@@ -109,18 +144,36 @@ namespace Micro_social_platform.Controllers
                     TempData["message"] = "Post edited sucesfully";
                     return RedirectToAction("Index");
                 }
+                else
+                {
+                    TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol ce nu va apartine";
+                    return RedirectToAction("Index");
+                }
+                   
+            }
             else
                     return View(requestArticle);
             
         }
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
-            Article article = db.Articles.Find(id);
-            db.Articles.Remove(article);
-            db.SaveChanges();
-            TempData["message"] = "Post deleted sucesfully";
-            return RedirectToAction("Index");
+            Article article = db.Articles.Include("Comments")
+                                            .Where(art => art.Id == id)
+                                            .First();
+            if (article.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+            {
+                db.Articles.Remove(article);
+                db.SaveChanges();
+                TempData["message"] = "Post deleted sucesfully";
+                return RedirectToAction("Index");
+            }
+            else 
+            {
+                TempData["message"] = "Nu aveti dreptul sa stergeti un articol ce nu va apartine";
+                return RedirectToAction("Index");
+            }
         }
 
 

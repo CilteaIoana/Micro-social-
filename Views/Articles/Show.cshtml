@@ -23,17 +23,21 @@
         </div>
 
     </div>
-
     <hr />
-    <div class="d-flex flex-row justify-content-between">
 
-        <a class="btn btn-success" href=/Articles/Edit/@Model.Id>Editeaza articol</a>
+    @if(ViewBag.DisplayButtons == true && Model.UserId == ViewBag.UserCurent || ViewBag.isAdmin)
+    {
+        <div class="d-flex flex-row justify-content-between">
 
-        <form method = "post" action=/Articles/Delete/@Model.Id>
-            <button class="btn btn-danger" type="submit">Sterge articol</button>
-        </form>
+            <a class="btn btn-success" href=/Articles/Edit/@Model.Id>Editeaza articol</a>
 
-    </div>
+            <form method = "post" action=/Articles/Delete/@Model.Id>
+                <button class="btn btn-danger" type="submit">Sterge articol</button>
+            </form>
+
+        </div>
+    }
+    
 
 </div>
 <br />
